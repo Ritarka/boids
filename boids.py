@@ -1,11 +1,9 @@
 import pygame
-from pygame import Color
-from pygame import Rect
 import math
 import random
 
-boids = []
 
+boids = []
 
 class Boid:
     def __init__(self, x, y):
@@ -20,13 +18,13 @@ visual_range = 50
 
 protect_range = 20
 
-centering_factor = 0.0005
+centering_factor = 0.0002
 matching_factor = 0.005
 
-avoid_factor = 0.08
+avoid_factor = 0.1
 
 min_speed = 2
-max_speed = 4
+max_speed = 5
 
 def distance(a, b):
     alpha = 0.9604
@@ -37,7 +35,6 @@ def distance(a, b):
     
     return alpha * max(a, b) + beta * min(a, b)
 
-import math
 
 def rotate(origin, point, velocity):
     
@@ -142,15 +139,13 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = pygame.mouse.get_pos()
-            print(x, y)
+            # print(x, y)
             boids.append(Boid(x, y))
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("purple")
 
-    # RENDER YOUR GAME HERE
     for boid in boids:
-        # pygame.draw.rect(screen, "white", Rect(boid.x, boid.y, 10, 10))
         points = [(boid.x + 6.66, boid.y), (boid.x - 3.33, boid.y - 5), (boid.x - 3.33, boid.y + 5)]
         points = [rotate((boid.x, boid.y), point, (boid.vx, boid.vy)) for point in points]
         pygame.draw.polygon(screen, "white", points)
